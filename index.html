@@ -126,6 +126,36 @@
     .ribbon-line.r { background: linear-gradient(270deg,transparent,#c4a6ff); }
     .ribbon-gem { font-size:1.2rem; }
 
+    /* ── Hero 中間訊息區 ── */
+    .hero-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      max-width: 600px;
+      margin-bottom: 60px;
+      padding: 36px 40px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 8px 40px rgba(0,0,0,.3);
+    }
+    .hero-photo {
+      width: 100%;
+      max-width: 340px;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.4);
+      object-fit: cover;
+    }
+    .hero-msg-text {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      line-height: 2;
+      color: rgba(255,255,255,.88);
+      text-align: center;
+    }
+
     .scroll-hint {
       position: absolute; bottom: 40px; left:50%;
       transform: translateX(-50%);
@@ -518,7 +548,7 @@
 <!-- ══════════ HERO ══════════ -->
 <section class="hero">
   <div class="hero-cake">🎂</div>
-  <p class="hero-tag">✨ &nbsp; A birthday surprise awaits &nbsp; ✨</p>
+  <p class="hero-tag">✨ &nbsp; 給 Yellow 叔叔的小驚喜 &nbsp; ✨</p>
   <h1 class="hero-title">Happy Birthday!<br>生日快樂</h1>
   <p class="hero-sub">四份來自心底的祝福，獻給最特別的你 🎁</p>
 
@@ -528,6 +558,20 @@
     <span class="ribbon-gem" style="font-size:.9rem;opacity:.6">✨</span>
     <span class="ribbon-gem">🎀</span>
     <div class="ribbon-line r"></div>
+  </div>
+
+  <!-- 中間段落訊息 -->
+  <div class="hero-message">
+    <img src="過年.jpg" alt="開心一家人" class="hero-photo">
+    <p class="hero-msg-text">
+      Yellow 叔叔，生日快樂！🎂<br><br>
+      這裡是屬於我們「開心一家人」的專屬空間。<br>
+      未來只要想起我們，隨時打開這張數位卡片，<br>
+      就能感受到我們一直都在叔叔身邊。<br><br>
+      也因為有叔叔的啟發，我們才開始接觸 AI，<br>
+      所以特別用這樣的方式，把祝福留下來，<br>
+      希望能成為一份長久陪伴的心意。🌟
+    </p>
   </div>
 
   <div class="scroll-hint">
@@ -540,7 +584,7 @@
 
 <!-- ══════════ SECTION TITLE ══════════ -->
 <div class="sec-title">
-  <p>🎵 · 🐾 · 🥣 · 🎨 · 四章手寫祝福</p>
+  <p>🎵 · 🐾 · 🥣 · 🎨 · 四張祝福卡片</p>
   <h2>打開屬於你的 <span>驚喜</span> 吧！</h2>
 </div>
 
@@ -921,7 +965,7 @@
 
 <!-- ══════════ 背景音樂 ══════════ -->
 <audio id="bgm" loop>
-  <source src="yellow-lyrics.mp3" type="audio/mpeg">
+  <source src="yellow.mp3" type="audio/mpeg">
 </audio>
 
 <!-- 浮動音樂按鈕 -->

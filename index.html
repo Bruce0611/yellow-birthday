@@ -362,11 +362,11 @@
     }
     .card.is-open .card-reveal-inner { opacity: 1; }
 
-    /* Content: text left, video right */
+    /* Content: text left, video top-right */
     .card-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      align-items: center;
+      align-items: start;   /* 影片貼頂，文字往下延伸 */
     }
     @media (max-width: 560px) {
       .card-content { grid-template-columns: 1fr; }
@@ -422,12 +422,12 @@
     .card-close-btn:hover { opacity: 1; }
     .card-close-btn svg { width: 13px; }
 
-    /* Video area — portrait phone layout */
+    /* Video area — portrait phone layout, top-right aligned */
     .card-video-side {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 24px 20px 28px;
+      padding: 20px 20px 20px 8px;
     }
 
     /* 手機直拍比例框 */
@@ -592,24 +592,22 @@
 <div class="cards-grid">
 
   <!-- ──────────────────────────
-       CARD 1 — Guitar & Singing
+       CARD 1 — 宋朝餡餅粥
   ────────────────────────────── -->
   <div class="card-wrap">
     <div class="card card-1" id="card-1">
       <div class="card-paper"></div>
 
-      <!-- doodle decorations (closed) -->
-      <svg class="doodle" style="bottom:10px;right:14px;width:70px" viewBox="0 0 80 60" fill="none" stroke="#c06828" stroke-width="2">
-        <path d="M10,50 Q20,10 30,30 Q40,50 50,20 Q60,0 70,30" stroke-linecap="round"/>
-        <circle cx="15" cy="20" r="4"/><circle cx="35" cy="40" r="3"/><circle cx="60" cy="15" r="3"/>
+      <svg class="doodle" style="top:10px;right:14px;width:65px" viewBox="0 0 70 60" fill="none" stroke="#c06828" stroke-width="2">
+        <circle cx="20" cy="30" r="12"/><circle cx="50" cy="20" r="8"/><circle cx="55" cy="45" r="6"/>
+        <line x1="28" y1="24" x2="44" y2="24"/><line x1="56" y1="26" x2="58" y2="40"/>
       </svg>
 
-      <!-- FRONT -->
       <div class="card-front" onclick="toggleCard('card-1')">
         <div class="washi"></div>
-        <span class="cf-seal">🎸</span>
-        <span class="cf-chapter">Chapter I · Guitar &amp; Song</span>
-        <span class="cf-title-front">弦音裡的生日祝福</span>
+        <span class="cf-seal">🥣</span>
+        <span class="cf-chapter">Chapter I · Song Dynasty</span>
+        <span class="cf-title-front">千年美食裡的生日情</span>
         <button class="cf-open-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2C8 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-4-8-8-8z"/>
@@ -619,30 +617,19 @@
         </button>
       </div>
 
-      <!-- REVEAL -->
       <div class="card-reveal">
         <div class="card-reveal-inner">
           <div class="card-content">
             <div class="card-text">
-              <p class="ct-label">Chapter I · Guitar &amp; Song</p>
-              <h3 class="ct-title">弦音裡的生日祝福 🎸</h3>
+              <p class="ct-label">Chapter I · Song Dynasty</p>
+              <h3 class="ct-title">千年美食裡的生日情 🥣</h3>
               <p class="ct-body">
-                叔叔生日快樂！<br>
-                恭賀您七十歲壽辰，<br>
-                福壽綿長、喜樂安康。🎂<br><br>
-                今年對您而言，是再次啟程的重要一年；<br>
-                能有機會與您一同成為創業夥伴，<br>
-                我深感榮幸，也十分珍惜這段緣分。<br>
-                期盼未來我們一家人在這條道路上<br>
-                彼此扶持、攜手前行，<br>
-                共同開創更好的成果。🏠<br><br>
-                回想大學四年，能夠認識您，<br>
-                是我最難得也最珍貴的收穫之一。<br>
-                特別感謝您當年在滬尾之心比賽那天<br>
-                主動邀請我用餐，讓我有機會與您結識，<br>
-                這段緣分我一直銘記在心。🙏<br><br>
-                衷心祝福叔叔身體健康、精神愉快，<br>
-                事業蒸蒸日上，創業順利圓滿！✨
+                宋朝匠人用粥和餡餅<br>
+                建構了一個時代的味道，<br>
+                就如同你用智慧<br>
+                構築了無數美麗空間。🏛️<br><br>
+                願這份古典風情<br>
+                伴你品味最美時光～
               </p>
               <button class="card-close-btn" onclick="toggleCard('card-1')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
@@ -653,7 +640,7 @@
               <div class="phone-frame">
                 <div class="video-wrap" id="vw-1">
                   <video controls style="width:100%;height:100%;object-fit:cover;background:#000">
-                    <source src="card1.mp4" type="video/mp4">
+                    <source src="card3.mp4" type="video/mp4">
                   </video>
                 </div>
                 <div class="vid-placeholder" id="vp-1" style="display:none">
@@ -739,22 +726,22 @@
   </div>
 
   <!-- ──────────────────────────
-       CARD 3 — 宋朝餡餅粥
+       CARD 3 — Guitar & Singing
   ────────────────────────────── -->
   <div class="card-wrap">
     <div class="card card-3" id="card-3">
       <div class="card-paper"></div>
 
-      <svg class="doodle" style="top:10px;right:14px;width:65px" viewBox="0 0 70 60" fill="none" stroke="#b86020" stroke-width="2">
-        <circle cx="20" cy="30" r="12"/><circle cx="50" cy="20" r="8"/><circle cx="55" cy="45" r="6"/>
-        <line x1="28" y1="24" x2="44" y2="24"/><line x1="56" y1="26" x2="58" y2="40"/>
+      <svg class="doodle" style="bottom:10px;right:14px;width:70px" viewBox="0 0 80 60" fill="none" stroke="#b86020" stroke-width="2">
+        <path d="M10,50 Q20,10 30,30 Q40,50 50,20 Q60,0 70,30" stroke-linecap="round"/>
+        <circle cx="15" cy="20" r="4"/><circle cx="35" cy="40" r="3"/><circle cx="60" cy="15" r="3"/>
       </svg>
 
       <div class="card-front" onclick="toggleCard('card-3')">
         <div class="washi"></div>
-        <span class="cf-seal">🥣</span>
-        <span class="cf-chapter">Chapter III · Song Dynasty</span>
-        <span class="cf-title-front">千年美食裡的生日情</span>
+        <span class="cf-seal">🎸</span>
+        <span class="cf-chapter">Chapter III · Guitar &amp; Song</span>
+        <span class="cf-title-front">弦音裡的生日祝福</span>
         <button class="cf-open-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2C8 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-4-8-8-8z"/>
@@ -768,15 +755,25 @@
         <div class="card-reveal-inner">
           <div class="card-content">
             <div class="card-text">
-              <p class="ct-label">Chapter III · Song Dynasty</p>
-              <h3 class="ct-title">千年美食裡的生日情 🥣</h3>
+              <p class="ct-label">Chapter III · Guitar &amp; Song</p>
+              <h3 class="ct-title">弦音裡的生日祝福 🎸</h3>
               <p class="ct-body">
-                宋朝匠人用粥和餡餅<br>
-                建構了一個時代的味道，<br>
-                就如同你用智慧<br>
-                構築了無數美麗空間。🏛️<br><br>
-                願這份古典風情<br>
-                伴你品味最美時光～
+                叔叔生日快樂！<br>
+                恭賀您七十歲壽辰，<br>
+                福壽綿長、喜樂安康。🎂<br><br>
+                今年對您而言，是再次啟程的重要一年；<br>
+                能有機會與您一同成為創業夥伴，<br>
+                我深感榮幸，也十分珍惜這段緣分。<br>
+                期盼未來我們一家人在這條道路上<br>
+                彼此扶持、攜手前行，<br>
+                共同開創更好的成果。🏠<br><br>
+                回想大學四年，能夠認識您，<br>
+                是我最難得也最珍貴的收穫之一。<br>
+                特別感謝您當年在滬尾之心比賽那天<br>
+                主動邀請我用餐，讓我有機會與您結識，<br>
+                這段緣分我一直銘記在心。🙏<br><br>
+                衷心祝福叔叔身體健康、精神愉快，<br>
+                事業蒸蒸日上，創業順利圓滿！✨
               </p>
               <button class="card-close-btn" onclick="toggleCard('card-3')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
@@ -787,7 +784,7 @@
               <div class="phone-frame">
                 <div class="video-wrap" id="vw-3">
                   <video controls style="width:100%;height:100%;object-fit:cover;background:#000">
-                    <source src="card3.mp4" type="video/mp4">
+                    <source src="card1.mp4" type="video/mp4">
                   </video>
                 </div>
                 <div class="vid-placeholder" id="vp-3" style="display:none">

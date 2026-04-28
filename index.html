@@ -132,9 +132,10 @@
       flex-direction: column;
       align-items: center;
       gap: 28px;
-      max-width: 600px;
+      max-width: 780px;
+      width: 90%;
       margin-bottom: 60px;
-      padding: 36px 40px;
+      padding: 36px 52px;
       border-radius: 16px;
       background: rgba(255,255,255,.07);
       backdrop-filter: blur(10px);
@@ -143,17 +144,203 @@
     }
     .hero-photo {
       width: 100%;
-      max-width: 340px;
+      max-width: 420px;
       border-radius: 12px;
       box-shadow: 0 6px 24px rgba(0,0,0,.4);
       object-fit: cover;
     }
     .hero-msg-text {
       font-family: 'Caveat', cursive;
-      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
       line-height: 2;
       color: rgba(255,255,255,.88);
       text-align: center;
+      white-space: pre-line;
+    }
+
+    /* ══ 彩蛋A：蛋糕蠟燭 ══ */
+    .cake-wrap {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 8px;
+      user-select: none;
+    }
+    .cake-body { font-size: clamp(3.5rem, 8vw, 5.5rem); animation: bounce .8s ease-in-out infinite alternate; }
+    .candles { display: flex; gap: 10px; font-size: 1.6rem; }
+    .candle { transition: filter .3s, opacity .3s; }
+    .candle.out { filter: grayscale(1); opacity: .4; }
+    .cake-hint {
+      font-family: 'Caveat', cursive;
+      font-size: .9rem;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .1em;
+      margin-top: 2px;
+      animation: floatHint 2s ease-in-out infinite;
+    }
+    .cake-wrap.blown .cake-hint { display: none; }
+
+    /* 長按進度環 */
+    .hold-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110px; height: 110px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .hold-ring circle {
+      fill: none;
+      stroke: #ffe082;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 314;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset linear;
+    }
+    .cake-wrap { position: relative; }
+
+    /* 許願彈出 */
+    .wish-toast {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: linear-gradient(135deg, rgba(60,20,80,.95), rgba(20,10,50,.95));
+      border: 1.5px solid rgba(255,180,220,.5);
+      border-radius: 20px;
+      padding: 36px 48px;
+      text-align: center;
+      z-index: 2000;
+      backdrop-filter: blur(16px);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none;
+      max-width: 360px; width: 88%;
+    }
+    .wish-toast.show { transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+    .wish-toast .wish-icon { font-size: 2.8rem; display: block; margin-bottom: 12px; }
+    .wish-toast p {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: #fff; line-height: 1.6;
+    }
+    .wish-toast small {
+      display: block; margin-top: 16px;
+      font-family: 'Caveat', cursive;
+      font-size: .85rem; color: rgba(255,255,255,.45);
+      cursor: pointer;
+    }
+    .wish-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1999;
+      backdrop-filter: blur(3px);
+    }
+    .wish-overlay.show { display: block; }
+
+    /* ══ 彩蛋B：掉落閃耀星星 ══ */
+    .secret-star-fall {
+      position: fixed;
+      font-size: 1.4rem;
+      cursor: pointer;
+      z-index: 5;
+      animation: starFall linear forwards, starTwinkle 1.2s ease-in-out infinite;
+      user-select: none;
+    }
+    .secret-star-fall:hover {
+      filter: drop-shadow(0 0 8px #ffe082) drop-shadow(0 0 16px #ffe082);
+      transform: scale(1.8);
+    }
+    @keyframes starFall {
+      0%   { top: -40px; opacity: 0; }
+      8%   { opacity: 1; }
+      90%  { opacity: .85; }
+      100% { top: 110vh; opacity: 0; }
+    }
+    @keyframes starTwinkle {
+      0%,100% { filter: drop-shadow(0 0 3px #ffe082) brightness(1); }
+      50%     { filter: drop-shadow(0 0 10px #ffe082) drop-shadow(0 0 20px #fff) brightness(1.5); }
+    }
+
+    /* 照片牆 modal */
+    .photo-modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 3000;
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .photo-modal-overlay.show { display: flex; }
+    .photo-modal {
+      background: linear-gradient(160deg, #1a0630, #0d1535);
+      border: 1.5px solid rgba(255,220,80,.3);
+      border-radius: 20px;
+      padding: 40px 36px 32px;
+      max-width: 700px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      position: relative;
+      text-align: center;
+    }
+    .photo-modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: 1px solid rgba(255,255,255,.2);
+      color: #fff; width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .photo-modal-close:hover { background: rgba(255,255,255,.1); }
+    .photo-modal h3 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem; color: #ffe082;
+      margin-bottom: 8px;
+    }
+    .photo-modal .pm-sub {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem; color: rgba(255,255,255,.5);
+      margin-bottom: 24px;
+    }
+
+    /* 單張隨機照片 */
+    .photo-grid {
+      margin-bottom: 24px;
+    }
+    .photo-item {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,220,80,.2);
+      box-shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+    .photo-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    /* 照片標題 */
+    .photo-title {
+      font-family: 'Caveat', cursive;
+      font-size: .9rem;
+      color: rgba(255,220,80,.6);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: .1em;
+    }
+
+    .photo-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.85);
+      line-height: 1.9;
+      text-align: center;
+      padding: 0 8px;
     }
 
     .scroll-hint {
@@ -170,6 +357,11 @@
       50%     { transform: translateX(-50%) translateY(8px); }
     }
     .scroll-hint svg { width:22px; }
+
+    @keyframes burstFly {
+      0%   { transform: translate(0,0) rotate(0deg); opacity:1; }
+      100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity:0; }
+    }
 
     /* ══════════════════════════════
        SECTION TITLE
@@ -547,7 +739,19 @@
 
 <!-- ══════════ HERO ══════════ -->
 <section class="hero">
-  <div class="hero-cake">🎂</div>
+  <!-- 彩蛋A：長按吹蠟燭 -->
+  <div class="cake-wrap" id="cakeWrap">
+    <div class="cake-body">🎂</div>
+    <div class="candles" id="candles">
+      <span class="candle" data-lit="1">🕯️</span>
+      <span class="candle" data-lit="1">🕯️</span>
+      <span class="candle" data-lit="1">🕯️</span>
+    </div>
+    <svg class="hold-ring" id="holdRing" viewBox="0 0 110 110">
+      <circle id="holdCircle" cx="55" cy="55" r="50"/>
+    </svg>
+    <div class="cake-hint" id="cakeHint">長按吹熄蠟燭 🌬️</div>
+  </div>
   <p class="hero-tag">✨ &nbsp; 給 Yellow 叔叔的小驚喜 &nbsp; ✨</p>
   <h1 class="hero-title">Happy Birthday!<br>生日快樂</h1>
   <p class="hero-sub">四份來自心底的祝福，獻給最特別的你 🎁</p>
@@ -892,6 +1096,34 @@
 
 </div><!-- /cards-grid -->
 
+<!-- ══════════ 彩蛋A：許願彈窗 ══════════ -->
+<div class="wish-overlay" id="wishOverlay" onclick="closeWish()"></div>
+<div class="wish-toast" id="wishToast">
+  <span class="wish-icon">🌟</span>
+  <p>願望已送達！<br>Yellow 叔叔<br>生日快樂！</p>
+  <small onclick="closeWish()">點擊關閉 ✕</small>
+</div>
+
+
+<!-- ══════════ 彩蛋B：照片牆 Modal ══════════ -->
+<div class="photo-modal-overlay" id="photoModal" onclick="closePhotoOnOverlay(event)">
+  <div class="photo-modal">
+    <button class="photo-modal-close" onclick="closePhotoModal()">✕</button>
+    <h3>💛 那些年，我們一起的時光</h3>
+    <p class="pm-sub">點點滴滴，我們都記得</p>
+
+    <!-- 照片由 JS 隨機插入 -->
+    <div class="photo-grid" id="randomPhotoGrid"></div>
+
+    <p class="photo-caption">
+      以後當我們見到天上星星就會想起你，<br>
+      想起你為我們做的所有。<br>
+      點點滴滴，我們都記得。<br>
+      那一抹溫暖的黃色，永遠留在我們心中。💛
+    </p>
+  </div>
+</div>
+
 <!-- ══════════ FOOTER ══════════ -->
 <footer class="footer">
   <span class="emojis">🎂 🎈 🎁 🥂 🎊</span>
@@ -969,6 +1201,175 @@
     });
   }, { threshold: 0.08 });
   wraps.forEach(w => io.observe(w));
+
+  /* ══ 彩蛋A：長按3秒吹蠟燭 ══ */
+  let holdTimer = null;
+  let holdStart = null;
+  const HOLD_DURATION = 3000;
+  const ring = document.getElementById('holdRing');
+  const circle = document.getElementById('holdCircle');
+  const cakeWrap = document.getElementById('cakeWrap');
+
+  function startHold() {
+    if (cakeWrap.classList.contains('blown')) return;
+    holdStart = Date.now();
+    ring.style.opacity = '1';
+    circle.style.transition = `stroke-dashoffset ${HOLD_DURATION}ms linear`;
+    circle.style.strokeDashoffset = '0';
+
+    holdTimer = setTimeout(() => {
+      triggerBlowOut();
+    }, HOLD_DURATION);
+  }
+
+  function endHold() {
+    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+    ring.style.opacity = '0';
+    circle.style.transition = 'stroke-dashoffset .3s ease';
+    circle.style.strokeDashoffset = '314';
+  }
+
+  function triggerBlowOut() {
+    // 熄滅全部蠟燭
+    document.querySelectorAll('.candle').forEach(c => {
+      c.classList.add('out');
+      c.dataset.lit = '0';
+    });
+    cakeWrap.classList.add('blown');
+    ring.style.opacity = '0';
+    document.getElementById('cakeHint').style.display = 'none';
+    launchConfettiBurst();
+    setTimeout(() => {
+      document.getElementById('wishOverlay').classList.add('show');
+      document.getElementById('wishToast').classList.add('show');
+    }, 600);
+  }
+
+  // 滑鼠事件
+  cakeWrap.addEventListener('mousedown', startHold);
+  cakeWrap.addEventListener('mouseup', endHold);
+  cakeWrap.addEventListener('mouseleave', endHold);
+  // 觸控事件（手機）
+  cakeWrap.addEventListener('touchstart', e => { e.preventDefault(); startHold(); }, { passive: false });
+  cakeWrap.addEventListener('touchend', endHold);
+  cakeWrap.addEventListener('touchcancel', endHold);
+
+  function launchConfettiBurst() {
+    const colors = ['#ff6b9d','#ffd166','#06d6a0','#a78bfa','#f77f00','#4cc9f0','#ffe082'];
+    for (let i = 0; i < 80; i++) {
+      const el = document.createElement('div');
+      el.style.cssText = `
+        position:fixed; pointer-events:none; z-index:9999;
+        left:${30 + Math.random()*40}vw;
+        top:${20 + Math.random()*30}vh;
+        width:${6+Math.random()*8}px;
+        height:${6+Math.random()*8}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>.5?'50%':'2px'};
+        animation: burstFly ${.8+Math.random()*1.2}s ease-out forwards;
+        --tx:${(Math.random()-0.5)*300}px;
+        --ty:${-(100+Math.random()*300)}px;
+        --rot:${Math.random()*720}deg;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }
+  }
+
+  function closeWish() {
+    document.getElementById('wishOverlay').classList.remove('show');
+    document.getElementById('wishToast').classList.remove('show');
+  }
+
+  /* ══ 彩蛋B：掉落星星 ══ */
+  let secretStarSpawned = false;
+
+  function spawnSecretStar() {
+    if (secretStarSpawned) return;
+    const star = document.createElement('div');
+    star.className = 'secret-star-fall';
+    star.textContent = '★';
+    const duration = 9 + Math.random() * 6; // 9~15秒掉落
+    const leftPos = 10 + Math.random() * 80; // 10~90vw
+    star.style.left = leftPos + 'vw';
+    star.style.animationDuration = duration + 's, 1.2s';
+    star.style.color = '#ffe082';
+    star.title = '✦ 點我 ✦';
+    star.addEventListener('click', () => {
+      openPhotoModal();
+      star.remove();
+      secretStarSpawned = false;
+    });
+    // 掉完後移除，過幾秒再重生
+    star.addEventListener('animationend', () => {
+      star.remove();
+      secretStarSpawned = false;
+    });
+    document.body.appendChild(star);
+    secretStarSpawned = true;
+  }
+
+  // 每隔 8~15 秒隨機出現一顆掉落星星
+  function scheduleSecretStar() {
+    const delay = (8 + Math.random() * 7) * 1000;
+    setTimeout(() => {
+      spawnSecretStar();
+      scheduleSecretStar();
+    }, delay);
+  }
+  scheduleSecretStar();
+
+  /* ══ 彩蛋B：隨機照片 + 隨機祝福語 ══ */
+  const secretPhotos = [
+    { src: '彩蛋/崔莊叔叔吃飯.jpg',     label: '崔莊與叔叔的美食時光' },
+    { src: '彩蛋/正安叔叔出去玩.JPG',    label: '正安與叔叔的出遊回憶' },
+    { src: '彩蛋/正安叔叔吃飯.jpg',      label: '正安與叔叔的飯桌情誼' },
+    { src: '彩蛋/正安叔叔唱歌.jpg',      label: '正安與叔叔的歌聲時光' },
+    { src: '彩蛋/正安洪福叔叔上課.jpg',  label: '我們一起上課的日子' },
+    { src: '彩蛋/正安洪福叔叔畢業.jpg',  label: '畢業那天，謝謝叔叔的陪伴' },
+    { src: '彩蛋/洪福叔叔吃飯.jpg',      label: '洪福與叔叔的聚餐時光' },
+    { src: '彩蛋/洪福叔叔畢業.jpg',      label: '洪福畢業，叔叔的祝福' },
+    { src: '彩蛋/洪福崔叔叔阿姨吃飯.jpg',label: '開心一家人的歡聚時刻' },
+  ];
+
+  const secretCaptions = [
+    '叔叔，謝謝您讓我們感受到家的溫暖。💛',
+    '有您在的地方，就是我們最安心的港灣。🌟',
+    '因為有您，我們的人生故事更加豐富精彩。✨',
+    '歲月流逝，但與叔叔共同走過的每一步，永遠珍藏心中。🎀',
+    '叔叔就像一盞明燈，照亮了我們前進的方向。🕯️',
+    '感謝您不只是長輩，更是我們最好的朋友。🤝',
+    '那一抹溫暖的黃色，永遠留在我們心中。Yellow，是您，也是陽光。🌻',
+    '願叔叔的每一天都像今天這樣，被愛與笑聲圍繞。🎊',
+    '七十歲，是人生全新篇章的開始，期待與您一起書寫更多美好。📖',
+    '開心一家人，因為有叔叔，才真正完整。❤️',
+  ];
+
+  function openPhotoModal() {
+    // 隨機選一張照片
+    const p = secretPhotos[Math.floor(Math.random() * secretPhotos.length)];
+    const grid = document.getElementById('randomPhotoGrid');
+    grid.innerHTML = `
+      <p class="photo-title">📷 ${p.label}</p>
+      <div class="photo-item"><img src="${p.src}" alt="${p.label}"></div>
+    `;
+    // 隨機選一個祝福語
+    const cap = secretCaptions[Math.floor(Math.random() * secretCaptions.length)];
+    document.querySelector('.photo-caption').textContent = cap;
+
+    document.getElementById('photoModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePhotoModal() {
+    document.getElementById('photoModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  function closePhotoOnOverlay(e) {
+    if (e.target === document.getElementById('photoModal')) closePhotoModal();
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeWish(); closePhotoModal(); }
+  });
 
   /* ── Toggle card open / close ── */
   function toggleCard(id) {

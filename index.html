@@ -191,6 +191,7 @@
       transform-origin: center bottom;
     }
     .cake-wrap.holding .cake-body {
+      animation: none;          /* stop bounce so scale transition is smooth */
       transform: scale(1.6);
       filter: drop-shadow(0 0 20px #ffe082) drop-shadow(0 0 40px #ffb3d1);
     }
@@ -1231,7 +1232,6 @@
       c.dataset.lit = '0';
     });
     cakeWrap.classList.add('blown');
-    ring.style.opacity = '0';
     document.getElementById('cakeHint').style.display = 'none';
     launchConfettiBurst();
     setTimeout(() => {

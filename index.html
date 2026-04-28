@@ -172,17 +172,26 @@
     .candles { display: flex; gap: 10px; font-size: 1.6rem; }
     .candle { transition: filter .3s, opacity .3s; }
     .candle.out { filter: grayscale(1); opacity: .4; }
-    .cake-hint {
-      font-family: 'Caveat', cursive;
-      font-size: .9rem;
-      color: rgba(255,255,255,.45);
-      letter-spacing: .1em;
-      margin-top: 2px;
-      text-align: center;
-      width: 100%;
-      animation: floatHint 2s ease-in-out infinite;
+    /* 周期性 ripple 波紋提示 — 取代文字 */
+    .cake-wrap::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 220, 120, 0.55);
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0;
+      animation: cakeRipple 3s ease-out infinite;
+      pointer-events: none;
     }
-    .cake-wrap.blown .cake-hint { display: none; }
+    .cake-wrap.holding::after,
+    .cake-wrap.blown::after { animation: none; opacity: 0; }
+    @keyframes cakeRipple {
+      0%   { transform: translate(-50%, -50%) scale(0.6); opacity: .7; }
+      70%  { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+    }
 
     /* 長按蛋糕放大效果 */
     .cake-wrap { position: relative; cursor: pointer; }
@@ -756,7 +765,6 @@
       <span class="candle" data-lit="1">🕯️</span>
     </div>
   </div>
-  <div class="cake-hint" id="cakeHint">長按吹熄蠟燭 🌬️</div>
   <p class="hero-tag">✨ &nbsp; 給 Yellow 叔叔的小驚喜 &nbsp; ✨</p>
   <h1 class="hero-title">Happy Birthday!<br>生日快樂</h1>
   <p class="hero-sub">四份來自心底的祝福，獻給最特別的你 🎁</p>
@@ -1234,7 +1242,6 @@
       c.dataset.lit = '0';
     });
     cakeWrap.classList.add('blown');
-    document.getElementById('cakeHint').style.display = 'none';
     launchConfettiBurst();
     setTimeout(() => {
       document.getElementById('wishOverlay').classList.add('show');

@@ -182,28 +182,27 @@
     }
     .cake-wrap.blown .cake-hint { display: none; }
 
-    /* 長按進度環 */
-    .hold-ring {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 110px; height: 110px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .2s;
+    /* 長按蛋糕放大效果 */
+    .cake-wrap { position: relative; cursor: pointer; }
+    .cake-body {
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
+      display: block;
+      transition: transform 3s linear, filter 3s linear;
+      transform-origin: center bottom;
     }
-    .hold-ring circle {
-      fill: none;
-      stroke: #ffe082;
-      stroke-width: 4;
-      stroke-linecap: round;
-      stroke-dasharray: 314;
-      stroke-dashoffset: 314;
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
-      transition: stroke-dashoffset linear;
+    .cake-wrap.holding .cake-body {
+      transform: scale(1.6);
+      filter: drop-shadow(0 0 20px #ffe082) drop-shadow(0 0 40px #ffb3d1);
     }
-    .cake-wrap { position: relative; }
+    .cake-wrap.blown .cake-body {
+      animation: cakeExplode .5s ease-out forwards;
+    }
+    @keyframes cakeExplode {
+      0%   { transform: scale(1.6); }
+      40%  { transform: scale(2.2) rotate(-8deg); }
+      70%  { transform: scale(1.8) rotate(5deg); }
+      100% { transform: scale(0); opacity: 0; }
+    }
 
     /* 許願彈出 */
     .wish-toast {
@@ -308,21 +307,27 @@
       margin-bottom: 24px;
     }
 
-    /* 單張隨機照片 */
+    /* 單張隨機照片 — 完整顯示不裁切 */
     .photo-grid {
       margin-bottom: 24px;
     }
     .photo-item {
       border-radius: 14px;
       overflow: hidden;
-      aspect-ratio: 4/3;
-      background: rgba(255,255,255,.06);
+      background: rgba(0,0,0,.3);
       border: 1px solid rgba(255,220,80,.2);
       box-shadow: 0 4px 24px rgba(0,0,0,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .photo-item img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
+      width: 100%;
+      height: auto;
+      max-height: 55vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 14px;
     }
     /* 照片標題 */
     .photo-title {
@@ -747,9 +752,6 @@
       <span class="candle" data-lit="1">🕯️</span>
       <span class="candle" data-lit="1">🕯️</span>
     </div>
-    <svg class="hold-ring" id="holdRing" viewBox="0 0 110 110">
-      <circle id="holdCircle" cx="55" cy="55" r="50"/>
-    </svg>
     <div class="cake-hint" id="cakeHint">長按吹熄蠟燭 🌬️</div>
   </div>
   <p class="hero-tag">✨ &nbsp; 給 Yellow 叔叔的小驚喜 &nbsp; ✨</p>
@@ -1204,19 +1206,12 @@
 
   /* ══ 彩蛋A：長按3秒吹蠟燭 ══ */
   let holdTimer = null;
-  let holdStart = null;
   const HOLD_DURATION = 3000;
-  const ring = document.getElementById('holdRing');
-  const circle = document.getElementById('holdCircle');
   const cakeWrap = document.getElementById('cakeWrap');
 
   function startHold() {
     if (cakeWrap.classList.contains('blown')) return;
-    holdStart = Date.now();
-    ring.style.opacity = '1';
-    circle.style.transition = `stroke-dashoffset ${HOLD_DURATION}ms linear`;
-    circle.style.strokeDashoffset = '0';
-
+    cakeWrap.classList.add('holding');
     holdTimer = setTimeout(() => {
       triggerBlowOut();
     }, HOLD_DURATION);
@@ -1224,9 +1219,9 @@
 
   function endHold() {
     if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
-    ring.style.opacity = '0';
-    circle.style.transition = 'stroke-dashoffset .3s ease';
-    circle.style.strokeDashoffset = '314';
+    if (!cakeWrap.classList.contains('blown')) {
+      cakeWrap.classList.remove('holding');
+    }
   }
 
   function triggerBlowOut() {
@@ -1345,18 +1340,34 @@
     '開心一家人，因為有叔叔，才真正完整。❤️',
   ];
 
+  // 不重複的洗牌佇列
+  let photoQueue = [], captionQueue = [];
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function nextPhoto() {
+    if (!photoQueue.length) photoQueue = shuffle(secretPhotos);
+    return photoQueue.pop();
+  }
+  function nextCaption() {
+    if (!captionQueue.length) captionQueue = shuffle(secretCaptions);
+    return captionQueue.pop();
+  }
+
   function openPhotoModal() {
-    // 隨機選一張照片
-    const p = secretPhotos[Math.floor(Math.random() * secretPhotos.length)];
+    const p = nextPhoto();
+    const cap = nextCaption();
     const grid = document.getElementById('randomPhotoGrid');
     grid.innerHTML = `
       <p class="photo-title">📷 ${p.label}</p>
       <div class="photo-item"><img src="${p.src}" alt="${p.label}"></div>
     `;
-    // 隨機選一個祝福語
-    const cap = secretCaptions[Math.floor(Math.random() * secretCaptions.length)];
     document.querySelector('.photo-caption').textContent = cap;
-
     document.getElementById('photoModal').classList.add('show');
     document.body.style.overflow = 'hidden';
   }
